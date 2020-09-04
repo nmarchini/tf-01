@@ -1,0 +1,43 @@
+---
+- name: Install Golang
+  yum:
+      name: "{{ item }}"
+      state: present
+  with_items: [ "golang", "hg"]
+  become: yes
+
+- name: Pull application from source control
+  git:
+    repo: "{{ application_repo }}"
+    dest: /home/ec2-user/go/src/simplewebapp/
+    force: yes
+
+- name: Go get dependencies
+  command: go get
+  args:
+    chdir: /home/ec2-user/go/src/simplewebapp/
+  environment:
+      GOPATH: "/home/ec2-user/go/"
+
+- name: Build application
+  command: go build server.go handlers.go db.go
+  args:
+    chdir: /home/ec2-user/go/src/simplewebapp/
+  environment:
+      DB_URL: "{{ db_url }}"
+
+- name: Add environment file for service
+  template: src=webapp.env.j2 dest=/etc/sysconfig/webapp mode=644
+  notify:
+    - reload systemctl
+  become: yes
+
+- name: Create application as a service
+  template: src=webapp.service.j2 dest=/lib/systemd/system/webapp.service mode=644
+  notify:
+    - reload systemctl
+  become: yes
+
+- name: Start web app service
+  service: name=webapp.service state=started enabled=yes
+  become: yes

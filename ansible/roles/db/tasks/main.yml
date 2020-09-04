@@ -1,0 +1,53 @@
+---
+
+- name: 'Add mongodb repo'
+  yum_repository:
+    name: "mongodb-org-3.4"
+    description: "MongoDB"
+    baseurl: https://repo.mongodb.org/yum/redhat/7/mongodb-org/3.4/x86_64/
+    gpgcheck: yes
+    enabled: yes
+    gpgkey: https://www.mongodb.org/static/pgp/server-3.4.asc
+    file: mongodb-org-3.4
+  become: yes
+
+- name: 'Install mongodb'
+  package:
+    name: mongodb-org
+    state: latest
+  become: yes
+
+- name: Create build directory
+  file:
+    path: /build/
+    state: directory
+    mode: 0755
+  become: yes
+
+- name: Copy test report database to remote
+  copy:
+    src: reports-dataset.json
+    dest: /build/reports-dataset.json
+  become: yes
+
+- name: Create database directory
+  file:
+    path: /data/db
+    state: directory
+    mode: 0755
+  become: yes
+
+- name: Stop MongoDB
+  command: mongod --shutdown
+  become: yes
+  ignore_errors: yes
+
+- name: Start MongoDB
+  command: mongod --fork --logpath /var/log/mongodb.log
+  become: yes
+
+- name: Import test report application dataset
+  command: mongoimport -d reports -c report --file reports-dataset.json
+  args:
+    chdir: /build/
+  become: yes

@@ -1,0 +1,23 @@
+---
+# A playbook to be used in a demo for an AWS + Slalom DevOps workshop, to deploy a simple web application.
+
+- name: apply common roles to all servers
+  hosts: all
+  remote_user: ec2-user
+
+  roles:
+    - common
+
+- name: configure dbserver
+  hosts: dbservers
+  remote_user: ec2-user
+
+  roles:
+    - db
+
+- name: configure appservers
+  hosts: appservers
+  remote_user: ec2-user
+
+  roles:
+    - app

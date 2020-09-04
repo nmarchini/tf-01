@@ -1,0 +1,9 @@
+---
+packages:
+  - curl
+  - vim
+  - git
+  - htop
+
+db_url: localhost
+application_repo: https://github.com/mattchilds1/simple-golang-webapp.git

@@ -1,0 +1,12 @@
+[Unit]
+Description=Simple Web App
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/sysconfig/webapp
+Environment="DB_URL={{ db_url }}"
+ExecStart=/home/ec2-user/go/src/simplewebapp/server
+WorkingDirectory=/home/ec2-user/go/src/simplewebapp/
+
+[Install]
+WantedBy=multi-user.target
