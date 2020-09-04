@@ -1,5 +1,5 @@
 resource "aws_security_group" "app_access" {
-  name        = "${terraform.workspace}-app-access"
+  name        = "${var.environment}-app-access"
   description = "Allows access from Load Balancer"
   vpc_id      = "${data.aws_vpc.core_vpc.id}"
 
@@ -32,7 +32,7 @@ resource "aws_security_group" "app_access" {
   }
 
   tags {
-    Name = "${terraform.workspace}-app-access"
-    Env  = "${terraform.workspace}"
+    Name = "${var.environment}-app-access"
+    Env  = "${var.environment}"
   }
 }

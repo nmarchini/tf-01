@@ -20,36 +20,36 @@ variable "dns_hostnames" {
 ###################################################################################################
 
 resource "aws_vpc" "scope" {
-  cidr_block           = "${var.cidr         }"
-  instance_tenancy     = "${var.tenancy      }"
-  enable_dns_support   = "${var.dns_support  }"
-  enable_dns_hostnames = "${var.dns_hostnames}"
+  cidr_block           = var.cidr
+  instance_tenancy     = var.tenancy
+  enable_dns_support   = var.dns_support
+  enable_dns_hostnames = var.dns_hostnames
 
-  tags {
-    Name = "${var.name}"
+  tags = {
+    Name = var.name
   }
 }
 
 ###################################################################################################
 
 output "id" {
-  value = "${aws_vpc.scope.id                    }"
+  value = aws_vpc.scope.id
 }
 
 output "tenancy" {
-  value = "${aws_vpc.scope.instance_tenancy      }"
+  value = aws_vpc.scope.instance_tenancy
 }
 
 output "dns_support" {
-  value = "${aws_vpc.scope.enable_dns_support    }"
+  value = aws_vpc.scope.enable_dns_support
 }
 
 output "dns_hostnames" {
-  value = "${aws_vpc.scope.enable_dns_hostnames  }"
+  value = aws_vpc.scope.enable_dns_hostnames
 }
 
 output "vpc_cidr" {
-  value = "${aws_vpc.scope.cidr_block}"
+  value = aws_vpc.scope.cidr_block
 }
 
 ###################################################################################################

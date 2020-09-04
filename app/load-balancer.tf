@@ -1,5 +1,5 @@
 resource "aws_elb" "web-elb" {
-  name            = "${terraform.workspace}-web"
+  name            = "${var.environment}-web"
   subnets         = ["${data.aws_subnet.public-01.id}", "${data.aws_subnet.public-02.id}"]
   security_groups = ["${aws_security_group.lb_access.id}"]
 
@@ -25,11 +25,11 @@ resource "aws_elb" "web-elb" {
   connection_draining_timeout = 300
 
   tags {
-    Name = "${terraform.workspace}-web"
-    Env  = "${terraform.workspace}"
+    Name = "${var.environment}-web"
+    Env  = "${var.environment}"
   }
 }
 
 output "web_elb_dns" {
-  value = "${aws_elb.web-elb.dns_name           }"
+  value = "${aws_elb.web-elb.dns_name}"
 }

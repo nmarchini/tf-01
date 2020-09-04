@@ -1,7 +1,7 @@
 resource "aws_security_group" "bastion_access" {
-  name        = "${terraform.workspace}-bastion_access"
+  name        = "bastion_access"
   description = "Allows SSH to Bastion from known source IP"
-  vpc_id      = "${module.vpc.id}"
+  vpc_id      = module.vpc.id
 
   ingress {
     from_port   = 22
@@ -17,8 +17,8 @@ resource "aws_security_group" "bastion_access" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags {
-    Name = "${terraform.workspace}-bastion_access"
-    Env  = "${terraform.workspace}"
+  tags = {
+    Name = "bastion_access-${var.environment}"
+    Env  = var.environment
   }
 }

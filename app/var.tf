@@ -57,48 +57,48 @@ variable "app_instance_ami" {
 data "aws_vpc" "core_vpc" {
   filter {
     name   = "tag:Name"
-    values = ["${terraform.workspace}"]
+    values = ["${var.environment}"]
   }
 }
 
 data "aws_subnet" "public-01" {
   filter {
     name   = "tag:Name"
-    values = ["${terraform.workspace}-public-01"]
+    values = ["${var.environment}-public-01"]
   }
 }
 
 data "aws_subnet" "public-02" {
   filter {
     name   = "tag:Name"
-    values = ["${terraform.workspace}-public-02"]
+    values = ["${var.environment}-public-02"]
   }
 }
 
 data "aws_subnet" "private-01" {
   filter {
     name   = "tag:Name"
-    values = ["${terraform.workspace}-private-01"]
+    values = ["${var.environment}-private-01"]
   }
 }
 
 data "aws_subnet" "private-02" {
   filter {
     name   = "tag:Name"
-    values = ["${terraform.workspace}-private-02"]
+    values = ["${var.environment}-private-02"]
   }
 }
 
 data "aws_subnet" "dmz-01" {
   filter {
     name   = "tag:Name"
-    values = ["${terraform.workspace}-dmz-01"]
+    values = ["${var.environment}-dmz-01"]
   }
 }
 
 data "aws_subnet" "dmz-02" {
   filter {
     name   = "tag:Name"
-    values = ["${terraform.workspace}-dmz-02"]
+    values = ["${var.environment}-dmz-02"]
   }
 }
