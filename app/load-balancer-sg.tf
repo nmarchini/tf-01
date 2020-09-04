@@ -1,5 +1,5 @@
 resource "aws_security_group" "lb_access" {
-  name        = "${terraform.workspace}-lb-access"
+  name        = "${var.environment}-lb-access"
   description = "Allows access to Load Balancer from internet"
   vpc_id      = "${data.aws_vpc.core_vpc.id}"
 
@@ -18,7 +18,7 @@ resource "aws_security_group" "lb_access" {
   }
 
   tags {
-    Name = "${terraform.workspace}-lb-access"
-    Env  = "${terraform.workspace}"
+    Name = "${var.environment}-lb-access"
+    Env  = "${var.environment}"
   }
 }

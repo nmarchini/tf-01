@@ -1,5 +1,5 @@
 resource "aws_security_group" "db_access" {
-  name        = "${terraform.workspace}-db-access"
+  name        = "${var.environment}-db-access"
   description = "Allows access from Load Balancer"
   vpc_id      = "${data.aws_vpc.core_vpc.id}"
 
@@ -25,7 +25,7 @@ resource "aws_security_group" "db_access" {
   }
 
   tags {
-    Name = "${terraform.workspace}-db-access"
-    Env  = "${terraform.workspace}"
+    Name = "${var.environment}-db-access"
+    Env  = "${var.environment}"
   }
 }

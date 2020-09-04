@@ -1,7 +1,7 @@
 provider "aws" {
-  region = "${var.region}"
+  region = var.region
 }
 
-terraform {
-  backend "s3" {}
-}
+# terraform {
+#   backend "s3" {}
+# }

@@ -1,0 +1,56 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.1.0
+    hooks:
+      - id: check-json
+        stages: [commit]
+      - id: check-merge-conflict
+      - id: end-of-file-fixer
+      - id: check-symlinks
+        exclude_types: [html]
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: pretty-format-json
+        stages: [commit]
+        args:
+          - --autofix
+      - id: trailing-whitespace
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.5.0
+    hooks:
+      - id: detect-aws-credentials
+        args:
+          - --allow-missing-credentials
+      - id: detect-private-key
+        stages: [commit, push]
+  - repo: https://github.com/jameswoolfenden/pre-commit
+    rev: v0.1.33
+    hooks:
+      - id: terraform-fmt
+      - id: checkov-scan
+        language_version: python3.8
+  - repo: local
+    hooks:
+      - id: pylint
+        name: pylint
+        entry: pylint
+        language: system
+        types: [python]
+  - repo: local
+    hooks:
+      - id: py.test
+        stages: [commit]
+        name: py.test
+        language: python
+        additional_dependencies:
+          [
+            "pytest",
+            "pytest-cov",
+            "coverage",
+            "fuzzywuzzy",
+            "python-Levenshtein",
+          ]
+        entry: sh
+        require_serial: true
+        pass_filenames: false
+        files: '\.py$'

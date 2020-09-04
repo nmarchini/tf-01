@@ -6,6 +6,10 @@
 STATEKEY = $(STATE)/terraform.tfstate
 #STATEREGION = eu-west-2
 
+ifndef  ENVIRONMENT
+override ENVIRONMENT = dev
+endif
+
 
 # # Before we start test that we have the mandatory executables available
 	EXECUTABLES = git terraform
@@ -15,39 +19,39 @@ STATEKEY = $(STATE)/terraform.tfstate
 
 .PHONY: plan
 
-first-run:
-	@echo "initialize remote state file"
-	cd $(STATE) && \
-	terraform init -backend-config="bucket=$(STATEBUCKET)" -backend-config="key=$(STATEKEY)" -backend-config="dynamodb_table=$(STATELOCKTABLE)" -backend-config="region=$(STATEREGION)"
-
-
 init:
-	@echo "initialize remote state file"
+	@echo "initialize state file"
 	cd $(STATE) && \
-	terraform workspace select $(WORKSPACE) || terraform workspace new $(WORKSPACE) && \
-	terraform init --force-copy -backend-config="bucket=$(STATEBUCKET)" -backend-config="key=$(STATEKEY)" -backend-config="dynamodb_table=$(STATELOCKTABLE)" -backend-config="region=$(STATEREGION)"
+	terraform init \
+	-var-file="../env/${ENVIRONMENT}/terraform.tfvars"
+#terraform workspace select $(WORKSPACE) || terraform workspace new $(WORKSPACE) && \
+## --force-copy -backend-config="bucket=$(STATEBUCKET)" -backend-config="key=$(STATEKEY)" -backend-config="dynamodb_table=$(STATELOCKTABLE)" -backend-config="region=$(STATEREGION)"
 
 validate: init
 	@echo "running terraform validate"
 	cd $(STATE) && \
-	terraform validate
+	terraform validate \
 
 plan: validate
 	@echo "running terraform plan"
 	cd $(STATE) && \
-	terraform plan
+	terraform plan \
+	-var-file="../env/${ENVIRONMENT}/terraform.tfvars"
 
 apply: plan
 	@echo "running terraform apply"
 	cd $(STATE) && \
-	terraform apply
+	terraform apply \
+	-var-file="../env/${ENVIRONMENT}/terraform.tfvars"
 
 plan-destroy: validate
 	@echo "running terraform plan -destroy"
 	cd $(STATE) && \
-	terraform plan -destroy
+	terraform plan -destroy \
+	-var-file="../env/${ENVIRONMENT}/terraform.tfvars"
 
 destroy: init
 	@echo "running terraform destroy"
 	cd $(STATE) && \
-	terraform destroy -force
+	terraform destroy -force \
+	-var-file="../env/${ENVIRONMENT}/terraform.tfvars"
