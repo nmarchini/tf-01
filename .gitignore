@@ -30,6 +30,12 @@ Temporary Items
 
 .vagrant
 
+
+*.exe
+*.tfstate
+*.backup
+*.bak
+*.info
 .terraform
 terraform.tfstate.d
 
