@@ -18,11 +18,3 @@ output "dns_hostnames" {
 output "vpc_cidr" {
   value = aws_vpc.scope.cidr_block
 }
-
-output "main_route_table_id" {
-  value = aws_vpc.main_route_table_id
-}
-
-output "owner_id" {
-  value = aws_vpc.owner_id
-}
