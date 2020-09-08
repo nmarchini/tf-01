@@ -10,17 +10,17 @@ locals {
   subnet_dmz_b_cidr_range     = "112/28"
   subnet_dmz_c_cidr_range     = "128/28"
 
-  vpc_cidr_base = {
+  # vpc_cidr_base = {
 
-    dev  = "172.16.16."
-    prod = "172.16.32."
+  #   dev  = "172.16.16."
+  #   prod = "172.16.32."
 
-  }
+  # }
 
-  vpc_cidr_netmask = {
+  # vpc_cidr_netmask = {
 
-    dev  = "0/24"
-    prod = "0/24"
+  #   dev  = "0/24"
+  #   prod = "0/24"
 
-  }
+  # }
 }

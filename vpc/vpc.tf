@@ -1,32 +1,7 @@
-###################################################################################################
-
-###################################################################################################
-
 module "vpc" {
   source = "../modules/vpc"
   name   = var.environment
   cidr   = "${var.vpc_cidr_base}${var.vpc_cidr_netmask}"
+  tags   = merge(module.tags.tags, { Name : "vpc-${var.environment}" })
+
 }
-
-###################################################################################################
-
-###################################################################################################
-
-output "vpc_id" {
-  value = module.vpc.id
-}
-
-output "vpc_tenancy" {
-  value = module.vpc.tenancy
-}
-
-output "vpc_dns_support" {
-  value = module.vpc.dns_support
-}
-
-output "vpc_dns_hostnames" {
-  value = module.vpc.dns_hostnames
-}
-
-###################################################################################################
-

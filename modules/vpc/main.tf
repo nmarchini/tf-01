@@ -3,8 +3,5 @@ resource "aws_vpc" "scope" {
   instance_tenancy     = var.tenancy
   enable_dns_support   = var.dns_support
   enable_dns_hostnames = var.dns_hostnames
-
-  tags = {
-    Name = var.name
-  }
+  tags                 = var.tags
 }

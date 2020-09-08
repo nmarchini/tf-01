@@ -23,7 +23,8 @@ init:
 	@echo "initialize state file"
 	cd $(STATE) && \
 	terraform init \
-	-var-file="../env/${ENVIRONMENT}/terraform.tfvars"
+	-var-file="../env/${ENVIRONMENT}/terraform.tfvars" \
+	-var-file="../common/common.tfvars"
 #terraform workspace select $(WORKSPACE) || terraform workspace new $(WORKSPACE) && \
 ## --force-copy -backend-config="bucket=$(STATEBUCKET)" -backend-config="key=$(STATEKEY)" -backend-config="dynamodb_table=$(STATELOCKTABLE)" -backend-config="region=$(STATEREGION)"
 
@@ -36,22 +37,28 @@ plan: validate
 	@echo "running terraform plan"
 	cd $(STATE) && \
 	terraform plan \
-	-var-file="../env/${ENVIRONMENT}/terraform.tfvars"
+	-lock=false \
+	-var-file="../env/${ENVIRONMENT}/terraform.tfvars" \
+	-var-file="../common/common.tfvars"
 
 apply: plan
 	@echo "running terraform apply"
 	cd $(STATE) && \
 	terraform apply \
-	-var-file="../env/${ENVIRONMENT}/terraform.tfvars"
+	-lock=false \
+	-var-file="../env/${ENVIRONMENT}/terraform.tfvars" \
+	-var-file="../common/common.tfvars"
 
 plan-destroy: validate
 	@echo "running terraform plan -destroy"
 	cd $(STATE) && \
 	terraform plan -destroy \
-	-var-file="../env/${ENVIRONMENT}/terraform.tfvars"
+	-var-file="../env/${ENVIRONMENT}/terraform.tfvars" \
+	-var-file="../common/common.tfvars"
 
 destroy: init
 	@echo "running terraform destroy"
 	cd $(STATE) && \
 	terraform destroy -force \
-	-var-file="../env/${ENVIRONMENT}/terraform.tfvars"
+	-var-file="../env/${ENVIRONMENT}/terraform.tfvars" \
+	-var-file="../common/common.tfvars"

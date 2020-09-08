@@ -7,7 +7,7 @@ resource "aws_security_group" "bastion_access" {
     from_port   = 22
     to_port     = 22
     protocol    = "TCP"
-    cidr_blocks = ["79.173.148.100/32"] #Known Source IP
+    cidr_blocks = ["${var.local_ip}"] #Known Source IP
   }
 
   egress {
@@ -17,8 +17,6 @@ resource "aws_security_group" "bastion_access" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = {
-    Name = "bastion_access-${var.environment}"
-    Env  = var.environment
-  }
+  tags = merge(module.tags.tags, { Name : "bastion-access-${var.environment}" })
+
 }

@@ -1,10 +1,7 @@
 resource "aws_internet_gateway" "gw" {
   vpc_id = module.vpc.id
 
-  tags = {
-    Name = "main-igw-${var.environment}"
-
-  }
+  tags = merge(module.tags.tags, { Name : "main-igw-${var.environment}" })
 }
 
 resource "aws_eip" "nat_eip" {
@@ -16,7 +13,5 @@ resource "aws_nat_gateway" "core_nat" {
   subnet_id     = aws_subnet.public-01.id
   depends_on    = [aws_internet_gateway.gw]
 
-  tags = {
-    name = "nat-gw-${var.environment}"
-  }
+  tags = merge(module.tags.tags, { Name : "nat-gw-${var.environment}" })
 }

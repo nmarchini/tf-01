@@ -4,9 +4,7 @@ resource "aws_subnet" "public-01" {
   availability_zone       = var.availability_zone_A
   map_public_ip_on_launch = true
 
-  tags = {
-    Name = "public-01-${var.environment}"
-  }
+  tags = merge(module.tags.tags, { Name : "public-01-${var.environment}" })
 }
 
 resource "aws_subnet" "public-02" {
@@ -15,9 +13,7 @@ resource "aws_subnet" "public-02" {
   availability_zone       = var.availability_zone_B
   map_public_ip_on_launch = true
 
-  tags = {
-    Name = "public-02-${var.environment}"
-  }
+  tags = merge(module.tags.tags, { Name : "public-01-${var.environment}" })
 }
 
 resource "aws_subnet" "dmz-01" {
@@ -26,9 +22,7 @@ resource "aws_subnet" "dmz-01" {
   availability_zone       = var.availability_zone_A
   map_public_ip_on_launch = true
 
-  tags = {
-    Name = "dmz-01-${var.environment}"
-  }
+  tags = merge(module.tags.tags, { Name : "public-01-${var.environment}" })
 }
 
 resource "aws_subnet" "dmz-02" {
@@ -37,7 +31,5 @@ resource "aws_subnet" "dmz-02" {
   availability_zone       = var.availability_zone_B
   map_public_ip_on_launch = true
 
-  tags = {
-    Name = "dmz-02-${var.environment}"
-  }
+  tags = merge(module.tags.tags, { Name : "public-01-${var.environment}" })
 }

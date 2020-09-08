@@ -8,16 +8,15 @@ resource "aws_instance" "bastion" {
   subnet_id              = aws_subnet.dmz-01.id
   #checkov:skip=CKV_AWS_8:Issue with this check
   #checkov:skip=CKV_AWS_79:Issue with this check
-  user_data = data.cloudinit_config.cloudinit
+  user_data = data.cloudinit_config.cloudinit.rendered
 
   root_block_device {
     volume_type = var.bastion_root_volume_type
     volume_size = var.bastion_root_volume_size
     encrypted   = var.bastion_data_volume_encryption
   }
-  tags = {
-    Name = "bastion-${var.environment}"
-  }
+  tags = merge(module.tags.tags, { Name : "bastion-${var.environment}" })
+
 }
 
 data "cloudinit_config" "cloudinit" {

@@ -13,3 +13,7 @@ variable "dns_support" {
 variable "dns_hostnames" {
   default = "true"
 }
+
+variable "tags" {
+  type = map
+}

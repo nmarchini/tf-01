@@ -1,3 +1,5 @@
+
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Providers
 
 | Name | Version |
@@ -23,3 +25,5 @@
 | id            | n/a         |
 | tenancy       | n/a         |
 | vpc_cidr      | n/a         |
+
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

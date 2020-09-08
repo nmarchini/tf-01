@@ -6,9 +6,7 @@ resource "aws_route_table" "public" {
     gateway_id = aws_internet_gateway.gw.id
   }
 
-  tags = {
-    Name = "public-${var.environment}"
-  }
+  tags = merge(module.tags.tags, { Name : "public-${var.environment}" })
 }
 
 resource "aws_route_table" "private" {
@@ -19,9 +17,7 @@ resource "aws_route_table" "private" {
     gateway_id = aws_nat_gateway.core_nat.id
   }
 
-  tags = {
-    Name = "private-${var.environment}"
-  }
+  tags = merge(module.tags.tags, { Name : "private-${var.environment}" })
 }
 
 resource "aws_route_table_association" "route_public_a" {
