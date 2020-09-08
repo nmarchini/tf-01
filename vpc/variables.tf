@@ -3,9 +3,7 @@
 variable "bastion_ssh_key" {}
 variable "vpc_cidr_base" {}
 variable "vpc_cidr_netmask" {}
-variable "environment" {
-  default = "dev"
-}
+variable "environment" {}
 
 
 #### Common Variables ####

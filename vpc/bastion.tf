@@ -8,9 +8,13 @@ resource "aws_instance" "bastion" {
   subnet_id              = aws_subnet.dmz-01.id
   #checkov:skip=CKV_AWS_8:Issue with this check
   #checkov:skip=CKV_AWS_79:Issue with this check
-  encrypted = true
   user_data = data.cloudinit_config.cloudinit
 
+  root_block_device {
+    volume_type = var.bastion_root_volume_type
+    volume_size = var.bastion_root_volume_size
+    encrypted   = var.bastion_data_volume_encryption
+  }
   tags = {
     Name = "bastion-${var.environment}"
   }
@@ -23,7 +27,7 @@ data "cloudinit_config" "cloudinit" {
   part {
     filename     = "cloud_init.sh"
     content_type = "text/x-shellscript"
-    content      = templatefile("bastion_user_data.sh")
+    content      = file("bastion_user_data.sh")
   }
 }
 
