@@ -1,3 +1,14 @@
+#### Environment specific Variables ####
+
+variable "bastion_ssh_key" {}
+variable "vpc_cidr_base" {}
+variable "vpc_cidr_netmask" {}
+variable "environment" {
+  default = "dev"
+}
+
+
+#### Common Variables ####
 variable "region" {
   description = "The AWS region that will be used to create resources in."
   default     = "eu-west-1"
@@ -12,13 +23,11 @@ variable "availability_zone_B" {
   description = "The second availability zone"
   default     = "eu-west-1b"
 }
-variable "vpc_cidr_base" {}
-variable "vpc_cidr_netmask" {}
 
-variable "environment" {
-  default = "dev"
+variable "availability_zone_C" {
+  description = "The second availability zone"
+  default     = "eu-west-1c"
 }
-
 
 variable "bastion_instance_ami" {
   type = map
